@@ -1,0 +1,1 @@
+export { UniandesPage } from './UniandesPage'
