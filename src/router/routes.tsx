@@ -43,6 +43,12 @@ const HuffmanCodingPage = lazy(() =>
 const AVLCursorPage = lazy(() =>
   import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.AVLCursorPage }))
 )
+const NetworkCommunications2Page = lazy(() =>
+  import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.NetworkCommunications2Page }))
+)
+const PhysicsLabPage = lazy(() =>
+  import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.PhysicsLabPage }))
+)
 const DatabasesIIPage = lazy(() =>
   import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.DatabasesIIPage }))
 )
@@ -76,6 +82,8 @@ export const routes: RouteObject[] = [
 
   { path: '/universidad-distrital',                       element: withSuspense(UniversidadDistritalPage) },
   { path: '/universidad-distrital/databases-ii',                               element: withSuspense(DatabasesIIPage) },
+  { path: '/universidad-distrital/network-communication-2',                    element: withSuspense(NetworkCommunications2Page) },
+  { path: '/universidad-distrital/physics-lab',                               element: withSuspense(PhysicsLabPage) },
   { path: '/universidad-distrital/computer-science-1',                       element: withSuspense(ComputerScience1Page) },
   { path: '/universidad-distrital/computer-science-2',                       element: withSuspense(ComputerScience2Page) },
   { path: '/universidad-distrital/computer-science-2/b-tree',                 element: withSuspense(BTreePage) },
