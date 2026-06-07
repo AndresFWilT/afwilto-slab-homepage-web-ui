@@ -20,6 +20,7 @@ export type UDCategory =
   | 'Programming'
   | 'Networks'
   | 'Databases'
+  | 'Physics'
 
 export interface UDSubject {
   slug: string
@@ -166,6 +167,15 @@ export const UD_SUBJECTS: UDSubject[] = [
       'Application layer protocols, network security, and modern distributed network services.',
   },
   {
+    slug: 'physics-lab',
+    number: '18',
+    title: 'Physics Lab',
+    category: 'Physics',
+    icon: '⚗️',
+    description:
+      'Step-by-step measurement reliability calculator: enter raw data, compute means and deviations, propagate errors, and fit a least-squares regression line.',
+  },
+  {
     slug: 'database-1',
     number: '16',
     title: 'Database 1',
@@ -192,4 +202,5 @@ export const UD_CATEGORY_STYLE: Record<UDCategory, { badge: string; gradient: st
   'Programming':         { badge: 'neutral', gradient: 'from-teal-900 to-brand-900' },
   'Networks':            { badge: 'neutral', gradient: 'from-indigo-900 to-brand-900' },
   'Databases':           { badge: 'warning', gradient: 'from-orange-900 to-brand-900' },
+  'Physics':             { badge: 'info',    gradient: 'from-sky-900 to-brand-900' },
 }
