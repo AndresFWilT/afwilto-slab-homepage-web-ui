@@ -10,6 +10,13 @@ import type { ITheaterService } from '@/application/ports/ITheaterService'
 import type { IAVLCursorService } from '@/application/ports/IAVLCursorService'
 import type { IEncodingService } from '@/application/ports/IEncodingService'
 import type { IPhysicsLabService } from '@/application/ports/IPhysicsLabService'
+import type { ICriticalPathService } from '@/application/ports/ICriticalPathService'
+import type { ITruthTableService } from '@/application/ports/ITruthTableService'
+import type { IGraphAlgoService } from '@/application/ports/IGraphAlgoService'
+import type { IGraphTraversalService } from '@/application/ports/IGraphTraversalService'
+import type { IHashDispersionService } from '@/application/ports/IHashDispersionService'
+import type { IHashFunctionService } from '@/application/ports/IHashFunctionService'
+import type { ITopologicalSortService } from '@/application/ports/ITopologicalSortService'
 import { FetchHttpClient } from '@/infrastructure/adapters'
 import { RBTHttpAdapter } from '@/infrastructure/adapters/rbt'
 import { ChromaticGraphHttpAdapter } from '@/infrastructure/adapters/chromatic'
@@ -22,6 +29,13 @@ import { TheaterHttpAdapter } from '@/infrastructure/adapters/theater'
 import { AVLCursorHttpAdapter } from '@/infrastructure/adapters/avlcursor'
 import { EncodingHttpAdapter } from '@/infrastructure/adapters/encoding'
 import { PhysicsLabHttpAdapter } from '@/infrastructure/adapters/physics'
+import { CriticalPathHttpAdapter } from '@/infrastructure/adapters/criticalpath'
+import { TruthTableHttpAdapter } from '@/infrastructure/adapters/truthtable'
+import { GraphAlgoHttpAdapter } from '@/infrastructure/adapters/graphalgo'
+import { GraphTraversalHttpAdapter } from '@/infrastructure/adapters/graphtraversal'
+import { HashDispersionHttpAdapter } from '@/infrastructure/adapters/hashdispersion'
+import { HashFunctionHttpAdapter } from '@/infrastructure/adapters/hashfunction'
+import { TopologicalSortHttpAdapter } from '@/infrastructure/adapters/toposort'
 
 const MAIN_API_URL    = import.meta.env.VITE_API_BASE_URL      ?? 'http://localhost:8080'
 const CS_MNGR_URL     = import.meta.env.VITE_CS_MNGR_URL       ?? 'http://localhost:8081'
@@ -42,6 +56,13 @@ export interface ServiceContainer {
   avlCursorService:      IAVLCursorService
   encodingService:       IEncodingService
   physicsLabService:     IPhysicsLabService
+  criticalPathService:   ICriticalPathService
+  truthTableService:     ITruthTableService
+  graphAlgoService:      IGraphAlgoService
+  graphTraversalService:  IGraphTraversalService
+  hashDispersionService:  IHashDispersionService
+  hashFunctionService:      IHashFunctionService
+  topologicalSortService:   ITopologicalSortService
 }
 
 const mainHttp    = new FetchHttpClient(MAIN_API_URL)
@@ -61,4 +82,11 @@ export const container: ServiceContainer = {
   avlCursorService:      new AVLCursorHttpAdapter(csMngrHttp),
   encodingService:       new EncodingHttpAdapter(new FetchHttpClient(ENCODING_URL)),
   physicsLabService:     new PhysicsLabHttpAdapter(new FetchHttpClient(PHYSICS_URL)),
+  criticalPathService:   new CriticalPathHttpAdapter(csMngrHttp),
+  truthTableService:     new TruthTableHttpAdapter(csMngrHttp),
+  graphAlgoService:      new GraphAlgoHttpAdapter(csMngrHttp),
+  graphTraversalService:  new GraphTraversalHttpAdapter(csMngrHttp),
+  hashDispersionService:  new HashDispersionHttpAdapter(csMngrHttp),
+  hashFunctionService:      new HashFunctionHttpAdapter(csMngrHttp),
+  topologicalSortService:   new TopologicalSortHttpAdapter(csMngrHttp),
 }

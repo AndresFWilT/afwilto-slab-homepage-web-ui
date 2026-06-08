@@ -19,8 +19,20 @@ const ComputerScience1Page = lazy(() =>
 const ComputerScience2Page = lazy(() =>
   import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.ComputerScience2Page }))
 )
+const ComputerScience3Page = lazy(() =>
+  import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.ComputerScience3Page }))
+)
 const CS2ProjectRouterPage = lazy(() =>
   import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.CS2ProjectRouterPage }))
+)
+const CS3ProjectRouterPage = lazy(() =>
+  import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.CS3ProjectRouterPage }))
+)
+const CriticalPathPage = lazy(() =>
+  import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.CriticalPathPage }))
+)
+const TruthTablePage = lazy(() =>
+  import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.TruthTablePage }))
 )
 const ChromaticGraphPage = lazy(() =>
   import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.ChromaticGraphPage }))
@@ -42,6 +54,24 @@ const HuffmanCodingPage = lazy(() =>
 )
 const AVLCursorPage = lazy(() =>
   import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.AVLCursorPage }))
+)
+const GraphAlgorithmsPage = lazy(() =>
+  import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.GraphAlgorithmsPage }))
+)
+const GraphTraversalsPage = lazy(() =>
+  import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.GraphTraversalsPage }))
+)
+const KruskalPage = lazy(() =>
+  import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.KruskalPage }))
+)
+const HashDispersionPage = lazy(() =>
+  import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.HashDispersionPage }))
+)
+const HashFunctionsPage = lazy(() =>
+  import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.HashFunctionsPage }))
+)
+const TopologicalSortPage = lazy(() =>
+  import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.TopologicalSortPage }))
 )
 const NetworkCommunications2Page = lazy(() =>
   import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.NetworkCommunications2Page }))
@@ -86,12 +116,22 @@ export const routes: RouteObject[] = [
   { path: '/universidad-distrital/physics-lab',                               element: withSuspense(PhysicsLabPage) },
   { path: '/universidad-distrital/computer-science-1',                       element: withSuspense(ComputerScience1Page) },
   { path: '/universidad-distrital/computer-science-2',                       element: withSuspense(ComputerScience2Page) },
+  { path: '/universidad-distrital/computer-science-3',                       element: withSuspense(ComputerScience3Page) },
+  { path: '/universidad-distrital/computer-science-3/critical-path',          element: withSuspense(CriticalPathPage) },
+  { path: '/universidad-distrital/computer-science-3/truth-table',             element: withSuspense(TruthTablePage) },
+  { path: '/universidad-distrital/computer-science-3/:projectSlug',            element: withSuspense(CS3ProjectRouterPage) },
   { path: '/universidad-distrital/computer-science-2/b-tree',                 element: withSuspense(BTreePage) },
   { path: '/universidad-distrital/computer-science-2/trie-dictionary',        element: withSuspense(TrieDictionaryPage) },
   { path: '/universidad-distrital/computer-science-2/lcrs-transform',         element: withSuspense(LCRSTransformPage) },
   { path: '/universidad-distrital/computer-science-2/huffman-coding',         element: withSuspense(HuffmanCodingPage) },
   { path: '/universidad-distrital/computer-science-2/avl-cursor',             element: withSuspense(AVLCursorPage) },
   { path: '/universidad-distrital/computer-science-2/chromatic-graph',        element: withSuspense(ChromaticGraphPage) },
+  { path: '/universidad-distrital/computer-science-2/graph-algorithms',       element: withSuspense(GraphAlgorithmsPage) },
+  { path: '/universidad-distrital/computer-science-2/graph-traversals',       element: withSuspense(GraphTraversalsPage) },
+  { path: '/universidad-distrital/computer-science-2/kruskal',                element: withSuspense(KruskalPage) },
+  { path: '/universidad-distrital/computer-science-2/hash-dispersion',        element: withSuspense(HashDispersionPage) },
+  { path: '/universidad-distrital/computer-science-2/hash-functions',         element: withSuspense(HashFunctionsPage) },
+  { path: '/universidad-distrital/computer-science-2/topological-sort',       element: withSuspense(TopologicalSortPage) },
   { path: '/universidad-distrital/computer-science-2/hash-table-chaining',   element: withSuspense(HashTableChainingPage) },
   { path: '/universidad-distrital/computer-science-2/:projectSlug',          element: withSuspense(CS2ProjectRouterPage) },
   { path: '/universidad-distrital/:subjectSlug',                             element: <SubjectPage university="distrital" /> },

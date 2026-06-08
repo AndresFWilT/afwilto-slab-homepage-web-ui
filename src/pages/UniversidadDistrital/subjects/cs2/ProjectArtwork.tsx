@@ -224,8 +224,8 @@ function AVLCursors({ from, to }: SvgProps) {
   )
 }
 
-// ── Dijkstra-Prim ─────────────────────────────────────────────────────────────
-function DijkstraPrim({ from, to }: SvgProps) {
+// ── Graph Algorithms (Dijkstra & Prim) ───────────────────────────────────────
+function GraphAlgorithms({ from, to }: SvgProps) {
   const id = 'dpg'
   const nodes = [
     { cx: 40,  cy: 60,  label: 'A' },
@@ -271,8 +271,8 @@ function DijkstraPrim({ from, to }: SvgProps) {
   )
 }
 
-// ── Graphs (DFS/BFS) ──────────────────────────────────────────────────────────
-function Graphs({ from, to }: SvgProps) {
+// ── Graph Traversals (BFS & DFS) ─────────────────────────────────────────────
+function GraphTraversals({ from, to }: SvgProps) {
   const id = 'grg'
   const nodes = [
     { cx: 60,  cy: 30,  n: 1 },
@@ -344,8 +344,8 @@ function Kruskal({ from, to }: SvgProps) {
   )
 }
 
-// ── Hash Matrix ───────────────────────────────────────────────────────────────
-function HashMatrix({ from, to }: SvgProps) {
+// ── Hash Dispersion ───────────────────────────────────────────────────────────
+function HashDispersion({ from, to }: SvgProps) {
   const id = 'hmx'
   const cols = 5, rows = 4
   const cw = 30, ch = 22, ox = 22, oy = 12
@@ -375,8 +375,8 @@ function HashMatrix({ from, to }: SvgProps) {
   )
 }
 
-// ── Hash Methods ──────────────────────────────────────────────────────────────
-function HashMethods({ from, to }: SvgProps) {
+// ── Hash Functions ────────────────────────────────────────────────────────────
+function HashFunctions({ from, to }: SvgProps) {
   const id = 'hmt'
   const buckets = 5
   const bh = 18, bw = 28, ox = 15, oy = 10
@@ -444,7 +444,7 @@ function ChromaticNumber({ from, to }: SvgProps) {
 }
 
 // ── Topological Sort ──────────────────────────────────────────────────────────
-function TopologicalOrder({ from, to }: SvgProps) {
+function TopologicalSort({ from, to }: SvgProps) {
   const id = 'tpg'
   const nodes = [
     { cx:30,  cy:60, label:'1' },
@@ -593,13 +593,13 @@ const ARTWORK: Record<string, React.FC<SvgProps>> = {
   'b-tree':           BTree,
   'huffman-coding':   HuffmanCoding,
   'avl-cursor':       AVLCursors,
-  'dijkstra-prim':    DijkstraPrim,
-  'graphs':           Graphs,
+  'graph-algorithms': GraphAlgorithms,
+  'graph-traversals': GraphTraversals,
   'kruskal':          Kruskal,
-  'hash-matrix':      HashMatrix,
-  'hash-methods':     HashMethods,
+  'hash-dispersion':  HashDispersion,
+  'hash-functions':   HashFunctions,
   'chromatic-number':    ChromaticNumber,
   'chromatic-graph':     ChromaticGraph,
   'hash-table-chaining': HashTableChaining,
-  'topological-order':TopologicalOrder,
+  'topological-sort': TopologicalSort,
 }
