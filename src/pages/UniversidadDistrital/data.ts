@@ -21,6 +21,8 @@ export type UDCategory =
   | 'Networks'
   | 'Databases'
   | 'Physics'
+  | 'Operations Research'
+  | 'Operating Systems'
 
 export interface UDSubject {
   slug: string
@@ -176,6 +178,15 @@ export const UD_SUBJECTS: UDSubject[] = [
       'Step-by-step measurement reliability calculator: enter raw data, compute means and deviations, propagate errors, and fit a least-squares regression line.',
   },
   {
+    slug: 'operations-research-1',
+    number: '19',
+    title: 'Operations Research I',
+    category: 'Operations Research',
+    icon: '📐',
+    description:
+      '2-variable LP via the graphical method (vertex enumeration) and N-variable Mixed Integer Programming via Simplex + Branch & Bound.',
+  },
+  {
     slug: 'database-1',
     number: '16',
     title: 'Database 1',
@@ -183,6 +194,15 @@ export const UD_SUBJECTS: UDSubject[] = [
     icon: '🗄️',
     description:
       'Relational databases, SQL, schema normalization, and transaction management fundamentals.',
+  },
+  {
+    slug: 'operative-systems',
+    number: '20',
+    title: 'Operative Systems',
+    category: 'Operating Systems',
+    icon: '⚙️',
+    description:
+      'CPU scheduling algorithms, process management, and OS fundamentals. Interactive Round-Robin scheduler with animated queue, Gantt chart, and step-by-step trace.',
   },
   {
     slug: 'databases-ii',
@@ -203,4 +223,6 @@ export const UD_CATEGORY_STYLE: Record<UDCategory, { badge: string; gradient: st
   'Networks':            { badge: 'neutral', gradient: 'from-indigo-900 to-brand-900' },
   'Databases':           { badge: 'warning', gradient: 'from-orange-900 to-brand-900' },
   'Physics':             { badge: 'info',    gradient: 'from-sky-900 to-brand-900' },
+  'Operations Research': { badge: 'success', gradient: 'from-emerald-900 to-brand-900' },
+  'Operating Systems':   { badge: 'warning', gradient: 'from-violet-900 to-brand-900' },
 }

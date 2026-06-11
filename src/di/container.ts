@@ -17,6 +17,11 @@ import type { IGraphTraversalService } from '@/application/ports/IGraphTraversal
 import type { IHashDispersionService } from '@/application/ports/IHashDispersionService'
 import type { IHashFunctionService } from '@/application/ports/IHashFunctionService'
 import type { ITopologicalSortService } from '@/application/ports/ITopologicalSortService'
+import type { IWeatherStationService } from '@/application/ports/IWeatherStationService'
+import type { IGraphicalMethodService } from '@/application/ports/IGraphicalMethodService'
+import type { IMixedIntegerService } from '@/application/ports/IMixedIntegerService'
+import type { IMailClientService } from '@/application/ports/IMailClientService'
+import type { IRoundRobinService } from '@/application/ports/IRoundRobinService'
 import { FetchHttpClient } from '@/infrastructure/adapters'
 import { RBTHttpAdapter } from '@/infrastructure/adapters/rbt'
 import { ChromaticGraphHttpAdapter } from '@/infrastructure/adapters/chromatic'
@@ -36,16 +41,28 @@ import { GraphTraversalHttpAdapter } from '@/infrastructure/adapters/graphtraver
 import { HashDispersionHttpAdapter } from '@/infrastructure/adapters/hashdispersion'
 import { HashFunctionHttpAdapter } from '@/infrastructure/adapters/hashfunction'
 import { TopologicalSortHttpAdapter } from '@/infrastructure/adapters/toposort'
+import { WeatherStationHttpAdapter } from '@/infrastructure/adapters/weatherstation'
+import { GraphicalMethodHttpAdapter } from '@/infrastructure/adapters/graphicalmethod'
+import { MixedIntegerHttpAdapter } from '@/infrastructure/adapters/mixedinteger'
+import { MailClientHttpAdapter } from '@/infrastructure/adapters/mailclient'
+import { RoundRobinHttpAdapter } from '@/infrastructure/adapters/roundrobin'
 
-const MAIN_API_URL    = import.meta.env.VITE_API_BASE_URL      ?? 'http://localhost:8080'
-const CS_MNGR_URL     = import.meta.env.VITE_CS_MNGR_URL       ?? 'http://localhost:8081'
-const THEATER_URL     = import.meta.env.VITE_THEATER_MNGR_URL  ?? 'http://localhost:8085'
-const ENCODING_URL    = import.meta.env.VITE_ENCODING_MNGR_URL ?? 'http://localhost:8086'
-const PHYSICS_URL     = import.meta.env.VITE_PHYSICS_MNGR_URL  ?? 'http://localhost:8087'
+const MAIN_API_URL       = import.meta.env.VITE_API_BASE_URL         ?? 'http://localhost:8080'
+const CS_MNGR_URL        = import.meta.env.VITE_CS_MNGR_URL           ?? 'http://localhost:8081'
+const THEATER_URL        = import.meta.env.VITE_THEATER_MNGR_URL      ?? 'http://localhost:8085'
+const ENCODING_URL       = import.meta.env.VITE_ENCODING_MNGR_URL     ?? 'http://localhost:8086'
+const PHYSICS_URL        = import.meta.env.VITE_PHYSICS_MNGR_URL      ?? 'http://localhost:8087'
+const NETWORK_COMM_URL   = import.meta.env.VITE_NETWORK_COMM_MNGR_URL     ?? 'http://localhost:8086'
+const OR_MNGR_URL        = import.meta.env.VITE_OPERATIONS_RESEARCH_MNGR_URL ?? 'http://localhost:8088'
+const OS_MNGR_URL        = import.meta.env.VITE_OPERATIVE_SYSTEM_MNGR_URL    ?? 'http://localhost:8089'
 
 export interface ServiceContainer {
-  httpClient:            IHttpClient
-  rbtService:            IRBTService
+  httpClient:             IHttpClient
+  rbtService:             IRBTService
+  weatherStationService:  IWeatherStationService
+  graphicalMethodService: IGraphicalMethodService
+  mixedIntegerService:    IMixedIntegerService
+  mailClientService:      IMailClientService
   chromaticGraphService: IChromaticGraphService
   hashTableService:      IHashTableService
   bTreeService:          IBTreeService
@@ -63,14 +80,22 @@ export interface ServiceContainer {
   hashDispersionService:  IHashDispersionService
   hashFunctionService:      IHashFunctionService
   topologicalSortService:   ITopologicalSortService
+  roundRobinService:        IRoundRobinService
 }
 
 const mainHttp    = new FetchHttpClient(MAIN_API_URL)
 const csMngrHttp  = new FetchHttpClient(CS_MNGR_URL)
 const theaterHttp = new FetchHttpClient(THEATER_URL)
 
+const networkCommHttp = new FetchHttpClient(NETWORK_COMM_URL)
+const orHttp          = new FetchHttpClient(OR_MNGR_URL)
+
 export const container: ServiceContainer = {
-  httpClient:            mainHttp,
+  httpClient:             mainHttp,
+  weatherStationService:  new WeatherStationHttpAdapter(networkCommHttp),
+  graphicalMethodService: new GraphicalMethodHttpAdapter(orHttp),
+  mixedIntegerService:    new MixedIntegerHttpAdapter(orHttp),
+  mailClientService:      new MailClientHttpAdapter(networkCommHttp),
   rbtService:            new RBTHttpAdapter(csMngrHttp),
   chromaticGraphService: new ChromaticGraphHttpAdapter(csMngrHttp),
   hashTableService:      new HashTableHttpAdapter(csMngrHttp),
@@ -89,4 +114,5 @@ export const container: ServiceContainer = {
   hashDispersionService:  new HashDispersionHttpAdapter(csMngrHttp),
   hashFunctionService:      new HashFunctionHttpAdapter(csMngrHttp),
   topologicalSortService:   new TopologicalSortHttpAdapter(csMngrHttp),
+  roundRobinService:        new RoundRobinHttpAdapter(new FetchHttpClient(OS_MNGR_URL)),
 }

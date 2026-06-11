@@ -76,11 +76,38 @@ const TopologicalSortPage = lazy(() =>
 const NetworkCommunications2Page = lazy(() =>
   import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.NetworkCommunications2Page }))
 )
+const NetworkComm1Page = lazy(() =>
+  import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.NetworkComm1Page }))
+)
+const NetworkComm3Page = lazy(() =>
+  import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.NetworkComm3Page }))
+)
+const OperationsResearch1Page = lazy(() =>
+  import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.OperationsResearch1Page }))
+)
+const OR1ProjectRouterPage = lazy(() =>
+  import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.OR1ProjectRouterPage }))
+)
+const GraphicalMethodPage = lazy(() =>
+  import('@/pages/UniversidadDistrital/subjects/or1/graphical-method/GraphicalMethodPage').then((m) => ({ default: m.GraphicalMethodPage }))
+)
+const MixedIntegerPage = lazy(() =>
+  import('@/pages/UniversidadDistrital/subjects/or1/mixed-integer/MixedIntegerPage').then((m) => ({ default: m.MixedIntegerPage }))
+)
 const PhysicsLabPage = lazy(() =>
   import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.PhysicsLabPage }))
 )
 const DatabasesIIPage = lazy(() =>
   import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.DatabasesIIPage }))
+)
+const OperativeSystemsPage = lazy(() =>
+  import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.OperativeSystemsPage }))
+)
+const RoundRobinPage = lazy(() =>
+  import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.RoundRobinPage }))
+)
+const OSProjectRouterPage = lazy(() =>
+  import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.OSProjectRouterPage }))
 )
 const NotFoundPage = lazy(() =>
   import('@/pages/NotFound').then((m) => ({ default: m.NotFoundPage }))
@@ -111,8 +138,17 @@ export const routes: RouteObject[] = [
   { path: '/design-system', element: withSuspense(DesignSystemPage) },
 
   { path: '/universidad-distrital',                       element: withSuspense(UniversidadDistritalPage) },
+  { path: '/universidad-distrital/operative-systems',                          element: withSuspense(OperativeSystemsPage) },
+  { path: '/universidad-distrital/operative-systems/round-robin',              element: withSuspense(RoundRobinPage) },
+  { path: '/universidad-distrital/operative-systems/:projectSlug',             element: withSuspense(OSProjectRouterPage) },
   { path: '/universidad-distrital/databases-ii',                               element: withSuspense(DatabasesIIPage) },
+  { path: '/universidad-distrital/network-communication-1',                    element: withSuspense(NetworkComm1Page) },
+  { path: '/universidad-distrital/operations-research-1',                      element: withSuspense(OperationsResearch1Page) },
+  { path: '/universidad-distrital/operations-research-1/graphical-method',     element: withSuspense(GraphicalMethodPage) },
+  { path: '/universidad-distrital/operations-research-1/mixed-integer',        element: withSuspense(MixedIntegerPage) },
+  { path: '/universidad-distrital/operations-research-1/:projectSlug',         element: withSuspense(OR1ProjectRouterPage) },
   { path: '/universidad-distrital/network-communication-2',                    element: withSuspense(NetworkCommunications2Page) },
+  { path: '/universidad-distrital/network-communication-3',                    element: withSuspense(NetworkComm3Page) },
   { path: '/universidad-distrital/physics-lab',                               element: withSuspense(PhysicsLabPage) },
   { path: '/universidad-distrital/computer-science-1',                       element: withSuspense(ComputerScience1Page) },
   { path: '/universidad-distrital/computer-science-2',                       element: withSuspense(ComputerScience2Page) },
