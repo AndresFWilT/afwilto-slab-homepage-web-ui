@@ -4,6 +4,7 @@ import { BaseLayout, Text, Button, Card, Alert } from '@/design-system'
 import { useServices } from '@/di'
 import { ProcessInput } from './ProcessInput'
 import { QueueVisualizer } from './QueueVisualizer'
+import { BlockedQueuePanel } from './BlockedQueuePanel'
 import { GanttChart } from './GanttChart'
 import { MetricsTable } from './MetricsTable'
 import { ExecutionLog } from './ExecutionLog'
@@ -36,7 +37,7 @@ export function RoundRobinPage() {
   const stepStateRef = useRef(stepState)
   useEffect(() => { stepStateRef.current = stepState }, [stepState])
 
-  // ── Auto-play interval ──────────────────────────────────────────────────────
+  // ── Auto-play ───────────────────────────────────────────────────────────────
   useEffect(() => {
     if (!autoPlay || mode !== 'step') return
     const id = setInterval(async () => {
@@ -92,67 +93,74 @@ export function RoundRobinPage() {
   async function handleSimulate() {
     const processes = validateProcesses()
     if (!processes) return
-    setLoading(true)
-    setError(null)
-    setMode('idle')
-    setSimulateResult(null)
+    setLoading(true); setError(null); setMode('idle'); setSimulateResult(null)
     try {
       const result = await roundRobinService.simulate(timeQuantum, processes)
-      setSimulateResult(result)
-      setMode('simulate')
+      setSimulateResult(result); setMode('simulate')
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Simulation failed')
-    } finally {
-      setLoading(false)
-    }
+    } finally { setLoading(false) }
   }
 
   function handleStartStep() {
     const processes = validateProcesses()
     if (!processes) return
-    setError(null)
-    setAutoPlay(false)
+    setError(null); setAutoPlay(false)
     const initial: SchedulerState = {
       queue: processes.map(p => ({ pid: p.pid, burstTime: p.burstTime, remainingTime: p.burstTime })),
+      blockedQueue: [],
       completedProcesses: [],
       executionLog: [],
       currentTime: 0,
       timeQuantum,
     }
-    setStepState(initial)
-    setSimulateResult(null)
-    setMode('step')
+    setStepState(initial); setSimulateResult(null); setMode('step')
   }
 
   async function handleStep() {
     if (!stepState || stepState.queue.length === 0) return
-    setLoading(true)
-    setError(null)
+    setLoading(true); setError(null)
     try {
       const updated = await roundRobinService.tick(stepState)
       setStepState(updated)
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Step failed')
-    } finally {
-      setLoading(false)
-    }
+    } finally { setLoading(false) }
+  }
+
+  async function handleBlock(pid: number) {
+    if (!stepState) return
+    setLoading(true); setError(null); setAutoPlay(false)
+    try {
+      const updated = await roundRobinService.block(stepState, pid)
+      setStepState(updated)
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Block failed')
+    } finally { setLoading(false) }
+  }
+
+  async function handleUnblock(pid: number) {
+    if (!stepState) return
+    setLoading(true); setError(null)
+    try {
+      const updated = await roundRobinService.unblock(stepState, pid)
+      setStepState(updated)
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Unblock failed')
+    } finally { setLoading(false) }
   }
 
   function handleReset() {
-    setMode('idle')
-    setSimulateResult(null)
-    setStepState(null)
-    setAutoPlay(false)
-    setError(null)
+    setMode('idle'); setSimulateResult(null); setStepState(null); setAutoPlay(false); setError(null)
   }
 
-  const isDone = mode === 'step' && stepState !== null && stepState.queue.length === 0
+  const isDone = mode === 'step' && stepState !== null
+    && stepState.queue.length === 0
+    && stepState.blockedQueue.length === 0
   const displaySteps = mode === 'simulate'
     ? simulateResult?.executionLog ?? []
     : stepState?.executionLog ?? []
-  const displayResults = mode === 'simulate'
-    ? simulateResult?.processResults ?? []
-    : []
+  const displayResults = mode === 'simulate' ? simulateResult?.processResults ?? [] : []
 
   return (
     <BaseLayout>
@@ -175,7 +183,7 @@ export function RoundRobinPage() {
         <div className="flex flex-col gap-1">
           <Text variant="h2" color="default">Round-Robin Scheduler</Text>
           <Text variant="small" color="muted">
-            CPU scheduling with configurable time quantum — animated queue, Gantt chart, step-by-step trace
+            CPU scheduling with configurable time quantum — animated queue, Gantt chart, process blocking
           </Text>
         </div>
 
@@ -183,32 +191,23 @@ export function RoundRobinPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-6">
 
-          {/* ── Left panel: input ──────────────────────────────────────────── */}
+          {/* ── Left panel ────────────────────────────────────────────────── */}
           <Card padding="md" className="flex flex-col gap-5">
             <Text variant="h4" color="default">Processes</Text>
             <ProcessInput
-              rows={rows}
-              timeQuantum={timeQuantum}
-              loading={loading}
-              onRowChange={handleRowChange}
-              onAddRow={handleAddRow}
-              onRemoveRow={handleRemoveRow}
-              onQuantumChange={setTimeQuantum}
-              onSimulate={handleSimulate}
-              onStartStep={handleStartStep}
+              rows={rows} timeQuantum={timeQuantum} loading={loading}
+              onRowChange={handleRowChange} onAddRow={handleAddRow} onRemoveRow={handleRemoveRow}
+              onQuantumChange={setTimeQuantum} onSimulate={handleSimulate} onStartStep={handleStartStep}
             />
-
             {mode !== 'idle' && (
-              <Button variant="ghost" size="sm" onClick={handleReset}>
-                ↺ Reset
-              </Button>
+              <Button variant="ghost" size="sm" onClick={handleReset}>↺ Reset</Button>
             )}
           </Card>
 
-          {/* ── Right panel: visualisation ─────────────────────────────────── */}
+          {/* ── Right panel ───────────────────────────────────────────────── */}
           <div className="flex flex-col gap-5">
 
-            {/* Step mode controls */}
+            {/* Step mode */}
             {mode === 'step' && stepState && (
               <Card padding="md" className="flex flex-col gap-4">
                 <div className="flex items-center justify-between flex-wrap gap-3">
@@ -216,12 +215,14 @@ export function RoundRobinPage() {
                   <div className="flex items-center gap-2">
                     {!isDone && (
                       <>
-                        <Button variant="primary" size="sm" loading={loading && !autoPlay} onClick={handleStep}>
+                        <Button variant="primary" size="sm" loading={loading && !autoPlay} onClick={handleStep}
+                          disabled={stepState.queue.length === 0}>
                           Next Step →
                         </Button>
                         <Button
                           variant={autoPlay ? 'danger' : 'secondary'}
                           size="sm"
+                          disabled={stepState.queue.length === 0}
                           onClick={() => setAutoPlay(v => !v)}
                         >
                           {autoPlay ? '⏸ Pause' : '▶ Auto'}
@@ -229,6 +230,9 @@ export function RoundRobinPage() {
                       </>
                     )}
                     {isDone && <span className="text-green-400 text-sm font-semibold">✓ Complete</span>}
+                    {!isDone && stepState.queue.length === 0 && stepState.blockedQueue.length > 0 && (
+                      <span className="text-amber-400 text-sm">Waiting — unblock a process</span>
+                    )}
                   </div>
                 </div>
 
@@ -245,7 +249,15 @@ export function RoundRobinPage() {
 
                 <QueueVisualizer
                   queue={stepState.queue}
+                  blockedQueue={stepState.blockedQueue}
                   currentTime={stepState.currentTime}
+                  onBlock={handleBlock}
+                />
+
+                <BlockedQueuePanel
+                  blockedQueue={stepState.blockedQueue}
+                  onUnblock={handleUnblock}
+                  loading={loading}
                 />
               </Card>
             )}
@@ -256,9 +268,7 @@ export function RoundRobinPage() {
                 <GanttChart
                   steps={displaySteps}
                   totalTime={
-                    mode === 'simulate'
-                      ? (simulateResult?.totalTime ?? 0)
-                      : (stepState?.currentTime ?? 0)
+                    mode === 'simulate' ? (simulateResult?.totalTime ?? 0) : (stepState?.currentTime ?? 0)
                   }
                 />
               </Card>
@@ -290,7 +300,7 @@ export function RoundRobinPage() {
                   or <strong className="text-neutral-200">Step Mode</strong> to advance one quantum at a time.
                 </Text>
                 <Text variant="caption" color="muted" className="text-center">
-                  Pre-loaded with the textbook example: P1(8), P2(3), P3(12), Q=5
+                  In Step Mode, hover over a process block and click <strong className="text-neutral-200">⊗</strong> to block it.
                 </Text>
               </Card>
             )}

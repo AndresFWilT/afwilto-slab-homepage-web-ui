@@ -109,6 +109,21 @@ const RoundRobinPage = lazy(() =>
 const OSProjectRouterPage = lazy(() =>
   import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.OSProjectRouterPage }))
 )
+const MLFQPage = lazy(() =>
+  import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.MLFQPage }))
+)
+const ArtificialIntelligencePage = lazy(() =>
+  import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.ArtificialIntelligencePage }))
+)
+const AIProjectRouterPage = lazy(() =>
+  import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.AIProjectRouterPage }))
+)
+const AStarPage = lazy(() =>
+  import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.AStarPage }))
+)
+const DFSPage = lazy(() =>
+  import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.DFSPage }))
+)
 const NotFoundPage = lazy(() =>
   import('@/pages/NotFound').then((m) => ({ default: m.NotFoundPage }))
 )
@@ -138,7 +153,12 @@ export const routes: RouteObject[] = [
   { path: '/design-system', element: withSuspense(DesignSystemPage) },
 
   { path: '/universidad-distrital',                       element: withSuspense(UniversidadDistritalPage) },
+  { path: '/universidad-distrital/artificial-intelligence-1',                   element: withSuspense(ArtificialIntelligencePage) },
+  { path: '/universidad-distrital/artificial-intelligence-1/a-star',           element: withSuspense(AStarPage) },
+  { path: '/universidad-distrital/artificial-intelligence-1/depth-first-search', element: withSuspense(DFSPage) },
+  { path: '/universidad-distrital/artificial-intelligence-1/:projectSlug',     element: withSuspense(AIProjectRouterPage) },
   { path: '/universidad-distrital/operative-systems',                          element: withSuspense(OperativeSystemsPage) },
+  { path: '/universidad-distrital/operative-systems/mlfq-scheduler',           element: withSuspense(MLFQPage) },
   { path: '/universidad-distrital/operative-systems/round-robin',              element: withSuspense(RoundRobinPage) },
   { path: '/universidad-distrital/operative-systems/:projectSlug',             element: withSuspense(OSProjectRouterPage) },
   { path: '/universidad-distrital/databases-ii',                               element: withSuspense(DatabasesIIPage) },

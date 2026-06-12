@@ -13,6 +13,18 @@ export interface OSProject {
 
 export const OS_PROJECTS: OSProject[] = [
   {
+    slug: 'mlfq-scheduler',
+    title: 'MLFQ Scheduler',
+    description:
+      'Multi-Level Feedback Queue with aging: three priority queues (RR → SJF → FCFS), anti-starvation promotions, process blocking/unblocking, and step-by-step trace.',
+    detail:
+      'Implements the classic MLFQ scheduling policy: processes enter Queue 1 (Round-Robin, highest priority), demote to Queue 2 (SJF) and Queue 3 (FCFS) over time, or age back up through anti-starvation promotion. Each queue uses a different scheduling algorithm. Processes can be blocked (I/O simulation) and return to their original queue on unblock. The simulator runs full simulation or advances one time unit at a time, recording every scheduling decision, promotion, and preemption.',
+    category: 'CPU Scheduling',
+    concept: 'MLFQ / Aging / Anti-Starvation',
+    gradientFrom: '#1e1b4b',
+    gradientTo: '#7c3aed',
+  },
+  {
     slug: 'round-robin',
     title: 'Round-Robin Scheduler',
     description:

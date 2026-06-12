@@ -31,6 +31,34 @@ function LogEntry({ step, index }: { step: ExecutionStep; index: number }) {
     )
   }
 
+  if (step.action === 'BLOCKED') {
+    const color = processColor(step.pid)
+    return (
+      <div className="flex items-start gap-2 text-xs font-mono py-0.5">
+        <span className="text-neutral-600 w-5 text-right shrink-0">{index + 1}.</span>
+        <span>
+          <span className="text-neutral-400">t={step.time}:</span>{' '}
+          <span className="font-bold" style={{ color }}>P{step.pid}</span>{' '}
+          <span className="text-red-400">🔒 blocked ({step.remainingAfter} remaining)</span>
+        </span>
+      </div>
+    )
+  }
+
+  if (step.action === 'UNBLOCKED') {
+    const color = processColor(step.pid)
+    return (
+      <div className="flex items-start gap-2 text-xs font-mono py-0.5">
+        <span className="text-neutral-600 w-5 text-right shrink-0">{index + 1}.</span>
+        <span>
+          <span className="text-neutral-400">t={step.time}:</span>{' '}
+          <span className="font-bold" style={{ color }}>P{step.pid}</span>{' '}
+          <span className="text-green-400">🔓 unblocked → back to ready queue</span>
+        </span>
+      </div>
+    )
+  }
+
   const color = processColor(step.pid)
   const actionText = step.action === 'COMPLETED'
     ? `→ COMPLETED`

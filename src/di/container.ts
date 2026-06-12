@@ -22,6 +22,9 @@ import type { IGraphicalMethodService } from '@/application/ports/IGraphicalMeth
 import type { IMixedIntegerService } from '@/application/ports/IMixedIntegerService'
 import type { IMailClientService } from '@/application/ports/IMailClientService'
 import type { IRoundRobinService } from '@/application/ports/IRoundRobinService'
+import type { IMLFQService } from '@/application/ports/IMLFQService'
+import type { IAStarService } from '@/application/ports/IAStarService'
+import type { IDFSService } from '@/application/ports/IDFSService'
 import { FetchHttpClient } from '@/infrastructure/adapters'
 import { RBTHttpAdapter } from '@/infrastructure/adapters/rbt'
 import { ChromaticGraphHttpAdapter } from '@/infrastructure/adapters/chromatic'
@@ -46,6 +49,9 @@ import { GraphicalMethodHttpAdapter } from '@/infrastructure/adapters/graphicalm
 import { MixedIntegerHttpAdapter } from '@/infrastructure/adapters/mixedinteger'
 import { MailClientHttpAdapter } from '@/infrastructure/adapters/mailclient'
 import { RoundRobinHttpAdapter } from '@/infrastructure/adapters/roundrobin'
+import { MLFQHttpAdapter } from '@/infrastructure/adapters/mlfq'
+import { AStarHttpAdapter } from '@/infrastructure/adapters/astar'
+import { DFSHttpAdapter } from '@/infrastructure/adapters/dfs'
 
 const MAIN_API_URL       = import.meta.env.VITE_API_BASE_URL         ?? 'http://localhost:8080'
 const CS_MNGR_URL        = import.meta.env.VITE_CS_MNGR_URL           ?? 'http://localhost:8081'
@@ -55,6 +61,7 @@ const PHYSICS_URL        = import.meta.env.VITE_PHYSICS_MNGR_URL      ?? 'http:/
 const NETWORK_COMM_URL   = import.meta.env.VITE_NETWORK_COMM_MNGR_URL     ?? 'http://localhost:8086'
 const OR_MNGR_URL        = import.meta.env.VITE_OPERATIONS_RESEARCH_MNGR_URL ?? 'http://localhost:8088'
 const OS_MNGR_URL        = import.meta.env.VITE_OPERATIVE_SYSTEM_MNGR_URL    ?? 'http://localhost:8089'
+const AI_MNGR_URL        = import.meta.env.VITE_AI_MNGR_URL                  ?? 'http://localhost:8090'
 
 export interface ServiceContainer {
   httpClient:             IHttpClient
@@ -81,6 +88,9 @@ export interface ServiceContainer {
   hashFunctionService:      IHashFunctionService
   topologicalSortService:   ITopologicalSortService
   roundRobinService:        IRoundRobinService
+  mlfqService:              IMLFQService
+  astarService:             IAStarService
+  dfsService:               IDFSService
 }
 
 const mainHttp    = new FetchHttpClient(MAIN_API_URL)
@@ -115,4 +125,7 @@ export const container: ServiceContainer = {
   hashFunctionService:      new HashFunctionHttpAdapter(csMngrHttp),
   topologicalSortService:   new TopologicalSortHttpAdapter(csMngrHttp),
   roundRobinService:        new RoundRobinHttpAdapter(new FetchHttpClient(OS_MNGR_URL)),
+  mlfqService:              new MLFQHttpAdapter(new FetchHttpClient(OS_MNGR_URL)),
+  astarService:             new AStarHttpAdapter(new FetchHttpClient(AI_MNGR_URL)),
+  dfsService:               new DFSHttpAdapter(new FetchHttpClient(AI_MNGR_URL)),
 }
