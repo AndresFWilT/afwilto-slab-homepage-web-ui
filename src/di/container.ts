@@ -25,6 +25,9 @@ import type { IRoundRobinService } from '@/application/ports/IRoundRobinService'
 import type { IMLFQService } from '@/application/ports/IMLFQService'
 import type { IAStarService } from '@/application/ports/IAStarService'
 import type { IDFSService } from '@/application/ports/IDFSService'
+import type { IChessService } from '@/application/ports/IChessService'
+import type { IScrabbleService } from '@/application/ports/IScrabbleService'
+import type { ITicTacToeService } from '@/application/ports/ITicTacToeService'
 import { FetchHttpClient } from '@/infrastructure/adapters'
 import { RBTHttpAdapter } from '@/infrastructure/adapters/rbt'
 import { ChromaticGraphHttpAdapter } from '@/infrastructure/adapters/chromatic'
@@ -52,6 +55,9 @@ import { RoundRobinHttpAdapter } from '@/infrastructure/adapters/roundrobin'
 import { MLFQHttpAdapter } from '@/infrastructure/adapters/mlfq'
 import { AStarHttpAdapter } from '@/infrastructure/adapters/astar'
 import { DFSHttpAdapter } from '@/infrastructure/adapters/dfs'
+import { ChessHttpAdapter } from '@/infrastructure/adapters/chess'
+import { ScrabbleHttpAdapter } from '@/infrastructure/adapters/scrabble'
+import { TicTacToeHttpAdapter } from '@/infrastructure/adapters/tictactoe'
 
 const MAIN_API_URL       = import.meta.env.VITE_API_BASE_URL         ?? 'http://localhost:8080'
 const CS_MNGR_URL        = import.meta.env.VITE_CS_MNGR_URL           ?? 'http://localhost:8081'
@@ -62,6 +68,7 @@ const NETWORK_COMM_URL   = import.meta.env.VITE_NETWORK_COMM_MNGR_URL     ?? 'ht
 const OR_MNGR_URL        = import.meta.env.VITE_OPERATIONS_RESEARCH_MNGR_URL ?? 'http://localhost:8088'
 const OS_MNGR_URL        = import.meta.env.VITE_OPERATIVE_SYSTEM_MNGR_URL    ?? 'http://localhost:8089'
 const AI_MNGR_URL        = import.meta.env.VITE_AI_MNGR_URL                  ?? 'http://localhost:8090'
+const PROGRAMMING_MNGR_URL = import.meta.env.VITE_PROGRAMMING_MNGR_URL       ?? 'http://localhost:8091'
 
 export interface ServiceContainer {
   httpClient:             IHttpClient
@@ -91,6 +98,9 @@ export interface ServiceContainer {
   mlfqService:              IMLFQService
   astarService:             IAStarService
   dfsService:               IDFSService
+  chessService:             IChessService
+  scrabbleService:          IScrabbleService
+  ticTacToeService:         ITicTacToeService
 }
 
 const mainHttp    = new FetchHttpClient(MAIN_API_URL)
@@ -128,4 +138,7 @@ export const container: ServiceContainer = {
   mlfqService:              new MLFQHttpAdapter(new FetchHttpClient(OS_MNGR_URL)),
   astarService:             new AStarHttpAdapter(new FetchHttpClient(AI_MNGR_URL)),
   dfsService:               new DFSHttpAdapter(new FetchHttpClient(AI_MNGR_URL)),
+  chessService:             new ChessHttpAdapter(new FetchHttpClient(PROGRAMMING_MNGR_URL)),
+  scrabbleService:          new ScrabbleHttpAdapter(new FetchHttpClient(PROGRAMMING_MNGR_URL)),
+  ticTacToeService:         new TicTacToeHttpAdapter(new FetchHttpClient(PROGRAMMING_MNGR_URL)),
 }

@@ -124,6 +124,24 @@ const AStarPage = lazy(() =>
 const DFSPage = lazy(() =>
   import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.DFSPage }))
 )
+const ProgrammingModels2Page = lazy(() =>
+  import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.ProgrammingModels2Page }))
+)
+const PM2ProjectRouterPage = lazy(() =>
+  import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.PM2ProjectRouterPage }))
+)
+const ProgrammingOOPage = lazy(() =>
+  import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.ProgrammingOOPage }))
+)
+const OOProjectRouterPage = lazy(() =>
+  import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.OOProjectRouterPage }))
+)
+const BasicProgrammingPage = lazy(() =>
+  import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.BasicProgrammingPage }))
+)
+const BPProjectRouterPage = lazy(() =>
+  import('@/pages/UniversidadDistrital/subjects').then((m) => ({ default: m.BPProjectRouterPage }))
+)
 const NotFoundPage = lazy(() =>
   import('@/pages/NotFound').then((m) => ({ default: m.NotFoundPage }))
 )
@@ -153,6 +171,12 @@ export const routes: RouteObject[] = [
   { path: '/design-system', element: withSuspense(DesignSystemPage) },
 
   { path: '/universidad-distrital',                       element: withSuspense(UniversidadDistritalPage) },
+  { path: '/universidad-distrital/basic-programming',                            element: withSuspense(BasicProgrammingPage) },
+  { path: '/universidad-distrital/basic-programming/:projectSlug',               element: withSuspense(BPProjectRouterPage) },
+  { path: '/universidad-distrital/programming-models-2',                        element: withSuspense(ProgrammingModels2Page) },
+  { path: '/universidad-distrital/programming-models-2/:projectSlug',           element: withSuspense(PM2ProjectRouterPage) },
+  { path: '/universidad-distrital/object-oriented-programming',                  element: withSuspense(ProgrammingOOPage) },
+  { path: '/universidad-distrital/object-oriented-programming/:projectSlug',    element: withSuspense(OOProjectRouterPage) },
   { path: '/universidad-distrital/artificial-intelligence-1',                   element: withSuspense(ArtificialIntelligencePage) },
   { path: '/universidad-distrital/artificial-intelligence-1/a-star',           element: withSuspense(AStarPage) },
   { path: '/universidad-distrital/artificial-intelligence-1/depth-first-search', element: withSuspense(DFSPage) },
